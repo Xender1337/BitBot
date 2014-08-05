@@ -33,7 +33,7 @@ BtcRate(rate=rate['last'],
 EurUsdValue = API.GetEurUsd()
 ### ---- Mise en BDD de EurUsd
 EurUsd(buy=EurUsdValue['buy'],
-       sell=EurUsdValue['sell'])
+       sell=EurUsdValue['sell']).save()
 
 ### ---- Debug
 print datetime.datetime.now()
