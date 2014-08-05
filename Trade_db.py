@@ -24,7 +24,7 @@ file = open("test", mode='r')
 while file.readline():
     current_line = file.readline()
     #print current_line
-    res = re.match(r'(\d{4})-(\d{2})-(\d{2}).(\d{2}):(\d{2}):\d+.(\d+).(\d+).(\d+).(\d+).', current_line)
+    res = re.match(r'(\d{4})-(\d{2})-(\d{2}).(\d{2}):(\d{2}):\d+\s(\d+).(\d+).', current_line)
 
     if res:
         print "Years is : " + res.group(1) + \
@@ -32,20 +32,18 @@ while file.readline():
               " // Days is : " + res.group(3) + \
               " // Hour : " + res.group(4) + \
               " // Minute : " + res.group(5) + \
-              " // Open : " + res.group(6) + '.' + res.group(7) + \
-              " // High : " + res.group(8) + '.' + res.group(9)
-
+              " // Open : " + res.group(6) + '.' + res.group(7)
 
         result = str(res.group(1)) + '-' + \
                  str(res.group(2)) + '-' + \
                  str(res.group(3)) + ' ' + \
                  str(res.group(4)) + ':' + \
                  str(res.group(5))
-        print result
+        #print result
         Open = Decimal(str(res.group(6)) + '.' + str(res.group(7)))
-        print Open
+        #print Open
 
         #DateTime = time.strptime(result, "%d-%m-%y %H:%M")
         #print repr(DateTime)
-
-        BtcValue(rate=Open, high=Open, low=Open, ask=Open, volume=0, date=result).save()
+        if Open > 10:
+            BtcValue(rate=Open, high=Open, low=Open, ask=Open, volume=0, date=result).save()
