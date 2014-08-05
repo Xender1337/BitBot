@@ -1,0 +1,21 @@
+__author__ = 'Xender'
+
+import urllib2
+import json
+
+class API(object):
+    def __init__(self):
+        self.result = dict()
+
+    def GetRate(self):
+        url = "https://www.bitstamp.net/api/ticker/"
+        request = urllib2.urlopen(url).read()
+        result = json.loads(request)
+        #print json.dumps(result, indent=4, separators=(',', ': ')) + '\n'
+        self.result["Rate"] = {"volume": result['volume'],
+                               "last": result['last'],
+                               "bid": result['bid'],
+                               "high": result['high'],
+                               "low": result['low'],
+                               "ask": result['ask']}
+        print self.result
