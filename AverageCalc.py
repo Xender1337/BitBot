@@ -1,29 +1,28 @@
 #!/usr/bin/env python
 __author__ = 'Naze-'
 
-import datetime
-from datetime import timedelta
+from datetime import timedelta, datetime
 import os
 
 # set up django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "BitBot.settings")
-
 from Trade.models import BtcValue, Average
 
 # -------------------------------------------------------------------------------------------------------------------- #
 
 cnt = 0
 add = 0
-now = datetime.datetime.now()
-td = timedelta(days=-30)
+now = datetime.now()
+td = timedelta(days=30)
 date = now - td
 
 print "Init"
 
-for value in BtcValue.objects.filter(date):
+for value in BtcValue.objects.filter(date__gte=datetime.now()-timedelta(days=30)):
     cnt += 1
     add += value.rate
-    print add
+    #print add
+    print value.date
 
 month = add/cnt
 add = 0
