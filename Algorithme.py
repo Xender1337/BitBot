@@ -8,7 +8,6 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "BitBot.settings")
 
 from Trade.models import BtcValue, Average, AlgOption
 
-
 # -------------------------------------------------------------------------------------------------------------------- #
 
 current_rate = BtcValue.objects.all()[:1]
@@ -19,23 +18,19 @@ monthAverage = lastAverage.monthAverage
 dayAverage = lastAverage.dayAveraga
 
 
-options = {0 : Buying,
-           1 : Selling,}
-
-options[AlgOption.Status]()
-
-def Buying():
+def buying():
     if current_rate < monthAverage && current_rate < dayAverage:
         AlgOption.BuyRate = current_rate
-        buy()
+        #buy()
         AlgOption.Status = 1
 
-def Selling():
+def selling():
     if current_rate >= AlgOption.BuyRate + 10:
-        sell()
+        #sell()
     AlgOption.Status = 0
 
-def buy():
 
+options = {0: buying,
+           1: selling}
 
-def sell():
+options[AlgOption.Status]()

@@ -2,6 +2,7 @@
 __author__ = 'Naze-'
 
 from datetime import timedelta
+import datetime
 import os
 
 # set up django
@@ -11,21 +12,25 @@ from Trade.models import BtcValue, Average
 
 # -------------------------------------------------------------------------------------------------------------------- #
 
-
+cnt =0
 add = 0
+now = datetime.datetime.now()
+td = timedelta(days=-30)
+date = now - td
+
 print "Init"
 
-for value in BtcValue.objects.all()[:43200]:
-    print "toto"
+for value in BtcValue.objects.filter(date):
+    cnt += 1
     add += value.rate
     print add
 
-month = add/43200
+month = add/cnt
 add = 0
-
+cnt = 0
 for value in BtcValue.objects.all()[:1440]:
-
-     add += value.rate
+    cnt += 1
+    add += value.rate
 
 day = add/1440
 
