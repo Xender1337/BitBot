@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 __author__ = 'Naze-'
 
-from datetime import timedelta
 import datetime
+from datetime import timedelta
 import os
 
 # set up django
@@ -12,7 +12,7 @@ from Trade.models import BtcValue, Average
 
 # -------------------------------------------------------------------------------------------------------------------- #
 
-cnt =0
+cnt = 0
 add = 0
 now = datetime.datetime.now()
 td = timedelta(days=-30)
