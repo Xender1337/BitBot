@@ -20,3 +20,4 @@ class BtcRate(models.Model):
 class EurUsd(models.Model):
     buy = models.DecimalField(unique=False, blank=False, max_digits=4, decimal_places=2)
     sell = models.DecimalField(unique=False, blank=False, max_digits=4, decimal_places=2)
+    date = models.DateTimeField(unique=False, blank=False, auto_now_add=True)
