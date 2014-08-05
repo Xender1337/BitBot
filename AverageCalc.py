@@ -31,4 +31,5 @@ for value in BtcValue.objects.filter(date__gte=datetime.now()-timedelta(days=1))
 day = add/cnt
 print 'day :' + str(day)
 
+Average.objects.all().delete()
 Average(monthAverage=month, dayAverage=day).save()
