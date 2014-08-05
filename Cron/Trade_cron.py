@@ -27,7 +27,8 @@ BtcValue(rate=rate['last'],
         high=rate['high'],
         low=rate['low'],
         ask=rate['ask'],
-        volume=rate['volume']).save()
+        volume=rate['volume'],
+        date=datetime.datetime.now()).save()
 
 ### ---- Recuperation des infos necessaire pour Eur/Usd
 EurUsdValue = API.GetEurUsd()

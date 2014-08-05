@@ -2,10 +2,15 @@ __author__ = 'Xender'
 
 import urllib2
 import json
+import hmac
+import hashlib
+from time import time
+
 
 class API(object):
     def __init__(self):
         self.result = dict()
+        self.nonce = int(time())
 
     def GetRate(self):
         url = "https://www.bitstamp.net/api/ticker/"
@@ -29,3 +34,7 @@ class API(object):
         self.result["EurUsd"] = {"buy": result['buy'],
                                  "sell": result['sell']}
         return self.result['EurUsd']
+
+
+    #def GetBalance(self, APIKey):
+
