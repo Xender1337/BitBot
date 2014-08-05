@@ -18,6 +18,11 @@ class BtcRate(models.Model):
 
 
 class EurUsd(models.Model):
-    buy = models.DecimalField(unique=False, blank=False, max_digits=4, decimal_places=2)
-    sell = models.DecimalField(unique=False, blank=False, max_digits=4, decimal_places=2)
+    buy = models.DecimalField(unique=False, blank=False, max_digits=5, decimal_places=4)
+    sell = models.DecimalField(unique=False, blank=False, max_digits=5, decimal_places=4)
     date = models.DateTimeField(unique=False, blank=False, auto_now_add=True)
+
+
+class BitstampUser(models.Model):
+    UserAccount = models.CharField(unique=True, blank=False, max_length=100)
+    ApiKey = models.CharField(unique=True, blank=False, max_length=255)
