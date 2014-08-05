@@ -15,3 +15,8 @@ class BtcRate(models.Model):
     ask = models.DecimalField(unique=False, blank=False, max_digits=8, decimal_places=2)
     volume = models.DecimalField(unique=False, blank=False, max_digits=16, decimal_places=8)
     date = models.DateTimeField(unique=False, blank=False, auto_now_add=True)
+
+
+class EurUsd(models.Model):
+    buy = models.DecimalField(unique=False, blank=False, max_digits=4, decimal_places=2)
+    sell = models.DecimalField(unique=False, blank=False, max_digits=4, decimal_places=2)
