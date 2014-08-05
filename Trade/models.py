@@ -13,7 +13,7 @@ class BtcValue(models.Model):
     low = models.DecimalField(unique=False, blank=False, max_digits=8, decimal_places=2)
     ask = models.DecimalField(unique=False, blank=False, max_digits=8, decimal_places=2)
     volume = models.DecimalField(unique=False, blank=False, max_digits=16, decimal_places=8)
-    date = models.DateTimeField(unique=False, blank=False, auto_now_add=True)
+    date = models.DateTimeField(unique=False, blank=False, auto_now_add=False)
 
 
 class Average(models.Model):
@@ -32,5 +32,5 @@ class BitstampUser(models.Model):
     ApiKey = models.CharField(unique=True, blank=False, max_length=255)
 
 class AlgOption(models.Model):
-    Status  = models.IntegerField(unique=True, blank=False, max_length=2)
+    Status = models.IntegerField(unique=True, blank=False, max_length=2)
     BuyRate = models.DecimalField(unique=False, blank=False, max_digits=16, decimal_places=8)
