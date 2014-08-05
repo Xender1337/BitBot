@@ -20,3 +20,12 @@ class API(object):
                                "ask": result['ask']}
         #print self.result
         return self.result['Rate']
+
+    def GetEurUsd(self):
+        url = "https://www.bitstamp.net/api/eur_usd/"
+        request = urllib2.urlopen(url).read()
+        result = json.loads(request)
+        #print json.dumps(result, indent=4, separators=(',', ': ')) + '\n'
+        self.result["EurUsd"] = {"buy": result['buy'],
+                                 "sell": result['sell']}
+        return self.result['EurUsd']
