@@ -15,7 +15,7 @@ class BtcRate(models.Model):
     ask = models.DecimalField(unique=False, blank=False, max_digits=8, decimal_places=2)
     volume = models.DecimalField(unique=False, blank=False, max_digits=16, decimal_places=8)
     date = models.DateTimeField(unique=False, blank=False, auto_now_add=True)
-    
+
 class Average(models.Model):
     monthAverage = models.DecimalField(unique=False, blank=False, max_digits=16, decimal_places=8)
     dayAverage = models.DecimalField(unique=False, blank=False, max_digits=16, decimal_places=8)

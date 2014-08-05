@@ -13,17 +13,21 @@ from django.db.models import F
 
 # -------------------------------------------------------------------------------------------------------------------- #
 
+add = 0
 month = 0
 day = 0
 
-for rate in BtcValue.objects.filter((mod_date__gt=F('date')) + timedelta(days=30)):
+for rate in BtcValue.objects.filter(BtcValue.rate)[:43200]:
 
-    month = month + rate.object
+    add = add + rate.object
 
+mont = add/43200
 Average.monthAverage = month
+add=0
 
-for rate in BtcValue.objects.filter :
+for rate in BtcValue.objects.filter(BtcValue.rate)[:1440]:
 
-     day = day + rate.object
+     add = add + rate.object
 
+day = add/1440
 Average.dayAverage = day
