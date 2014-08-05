@@ -2,8 +2,6 @@ __author__ = 'Xender'
 
 import urllib2
 import json
-import hmac
-import hashlib
 from time import time
 
 
@@ -34,7 +32,3 @@ class API(object):
         self.result["EurUsd"] = {"buy": result['buy'],
                                  "sell": result['sell']}
         return self.result['EurUsd']
-
-
-    #def GetBalance(self, APIKey):
-
