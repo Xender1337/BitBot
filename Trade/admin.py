@@ -5,6 +5,6 @@ from Trade.models import BtcRate
 
 
 class BtcRateAdmin(admin.ModelAdmin):
-    list_display = ('rate', 'volume', 'date')
+    list_display = ('rate', 'high', 'low', 'ask', 'volume', 'date')
 
 admin.site.register(BtcRate, BtcRateAdmin)
