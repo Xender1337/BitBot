@@ -8,26 +8,25 @@ import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "BitBot.settings")
 
 from Trade.models import BtcValue, Average
-from django.db.models import F
-
 
 # -------------------------------------------------------------------------------------------------------------------- #
 
+
 add = 0
-month = 0
-day = 0
+print "Init"
 
-for rate in BtcValue.objects.filter(BtcValue.rate)[:43200]:
+for value in BtcValue.objects.all()[:43200]:
+    print "toto"
+    add += value.rate
+    print add
 
-    add = add + rate.object
+month = add/43200
+add = 0
 
-mont = add/43200
-Average.monthAverage = month
-add=0
+for value in BtcValue.objects.all()[:1440]:
 
-for rate in BtcValue.objects.filter(BtcValue.rate)[:1440]:
-
-     add = add + rate.object
+     add += value.rate
 
 day = add/1440
-Average.dayAverage = day
+
+Average(monthAverage=month, dayAverage=day).save()
