@@ -18,4 +18,5 @@ class API(object):
                                "high": result['high'],
                                "low": result['low'],
                                "ask": result['ask']}
-        print self.result
+        #print self.result
+        return self.result['Rate']
