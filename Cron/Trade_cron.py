@@ -14,7 +14,7 @@ import datetime
 # set up django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "BitBot.settings")
 sys.path.append('../')
-from Trade.models import BtcRate, EurUsd
+from Trade.models import BtcValue, EurUsd
 
 
 print "\n###############################\n####     Start of Cron     ####\n###############################\n"
@@ -23,7 +23,7 @@ API = BitstampAPI.API()
 ### ---- Recuperation des infos necessaire pour BtcRate
 rate = API.GetRate()
 ### ---- Mise en BDD de BtcRate
-BtcRate(rate=rate['last'],
+BtcValue(rate=rate['last'],
         high=rate['high'],
         low=rate['low'],
         ask=rate['ask'],
