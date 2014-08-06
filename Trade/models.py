@@ -45,16 +45,37 @@ class BitstampUser(models.Model):
 
     @property
     def account_value_btc(self):
-        total = self.BtcBalance + self.BtcAvailable + self.BtcReserved
+        total = self.BtcAvailable + self.BtcReserved
         return total
 
     @property
     def account_value_usd(self):
-        total = self.UsdAvailable + self.UsdBalance + self.UsdReserved
+        total = self.UsdAvailable + self.UsdReserved
         return total
 
     def __unicode__(self):
         return "Account : " + self.AccountName + " // UserID : " + str(self.UserID)
+
+
+class Order(models.Model):
+    TYPE_REQUEST = (
+        (0, 'Open Order'),
+        (1, 'Cancel Order'),
+        (2, 'Buy Limit Order'),
+        (3, 'Sell Limit Order')
+    )
+    TYPE_ORDER = (
+        (0, 'Buy'),
+        (1, 'Sell')
+    )
+    BitstampUser = models.ForeignKey(BitstampUser)
+    OrderId = models.IntegerField(blank=False, unique=True, max_length=20,)
+    Price = models.DecimalField(unique=False, blank=False, max_digits=16, decimal_places=8, default=0)
+    Amount = models.DecimalField(unique=False, blank=False, max_digits=16, decimal_places=8, default=0)
+    RequestType = models.IntegerField(unique=False, blank=False, choices=TYPE_REQUEST)
+    OrderType = models.IntegerField(unique=False, blank=False, choices=TYPE_ORDER)
+
+
 
 class AlgOption(models.Model):
     Status = models.IntegerField(unique=False, blank=False, max_length=2)

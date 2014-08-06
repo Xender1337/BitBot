@@ -62,7 +62,4 @@ for a_user in BitstampUser.objects.all():
     a_user.save()
     print "Info for this account id : " + str(AccountInfo)
 
-
-
-
 print "\n###############################\n#####     End of Cron     #####\n###############################\n"
