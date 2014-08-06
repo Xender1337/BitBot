@@ -57,7 +57,7 @@ class BitstampUser(models.Model):
         return "Account : " + self.AccountName + " // UserID : " + str(self.UserID)
 
 class AlgOption(models.Model):
-    Status = models.IntegerField(unique=True, blank=False, max_length=2)
-    BuyRate = models.DecimalField(unique=False, blank=False, max_digits=16, decimal_places=8)
-    cpt = models.IntegerField(unique=True, blank=False, max_length=2)
+    Status = models.IntegerField(unique=False, blank=False, max_length=2)
+    BuyRate = models.DecimalField(unique=False, blank=False, default=0, max_digits=16, decimal_places=8)
+    cpt = models.IntegerField(unique=False, blank=False, max_length=2)
     date = models.DateTimeField(unique=False, blank=False)
