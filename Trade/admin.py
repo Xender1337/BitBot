@@ -20,7 +20,10 @@ admin.site.register(BitstampUser, BitstampUserAdmin)
 class AverageAdmin(admin.ModelAdmin):
     list_display = ('monthAverage', 'dayAverage')
 admin.site.register(Average, AverageAdmin)
+<<<<<<< HEAD
 
 class AlgOptionAdmin(admin.ModelAdmin):
     list_display = ('Status', 'BuyRate', 'cpt')
 admin.site.register(AlgOption, AlgOptionAdmin)
+=======
+>>>>>>> FETCH_HEAD

@@ -8,3 +8,5 @@
 .idea/.name
 
 *.ids
+
+*.sqlite3
