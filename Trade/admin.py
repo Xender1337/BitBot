@@ -23,5 +23,5 @@ admin.site.register(Average, AverageAdmin)
 
 
 class AlgOptionAdmin(admin.ModelAdmin):
-    list_display = ('Status', 'BuyRate', 'cpt')
+    list_display = ('Status', 'BuyRate', 'cpt', 'date')
 admin.site.register(AlgOption, AlgOptionAdmin)

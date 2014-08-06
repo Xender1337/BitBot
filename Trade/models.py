@@ -35,3 +35,4 @@ class AlgOption(models.Model):
     Status = models.IntegerField(unique=True, blank=False, max_length=2)
     BuyRate = models.DecimalField(unique=False, blank=False, max_digits=16, decimal_places=8)
     cpt = models.IntegerField(unique=True, blank=False, max_length=2)
+    date = models.DateTimeField(unique=False, blank=False, auto_now_add=False)
