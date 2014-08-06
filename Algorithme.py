@@ -15,19 +15,24 @@ end_date = datetime.now()
 cnt = 30
 td = timedelta(days=cnt)
 current_date = end_date - td
+AlgOption.Status = 0
 
+print "debut Trade"
 while current_date < end_date:
 
+    #Changement de la date
     cnt -= 1
     td = timedelta(days=cnt)
     current_date = end_date - td
 
-    allBtcValue = BtcValue.objects.all()[:1]
+    #recuperation de la valeur actuelle du cour
+    allBtcValue = BtcValue.objects.order_by('-date').all()[1]
     current_rate = allBtcValue.rate
 
-    lastAverage = Average.objects.all()[:1]
+    #recuperation des moyennes du cour
+    lastAverage = Average.objects.all()[0]
     monthAverage = lastAverage.monthAverage
-    dayAverage = lastAverage.dayAveraga
+    dayAverage = lastAverage.dayAverage
 
 
 
@@ -35,20 +40,26 @@ while current_date < end_date:
         AlgOption.cpt += 1
 
     def buying():
+        print "buying"
         if current_rate < monthAverage and current_rate < dayAverage:
             AlgOption.BuyRate = current_rate
             #buy()
-            AlgOption.Status = 1
+        AlgOption.objects.all().delete()
+        AlgOption.Status = 1
 
     def selling():
+        print "selling"
         if current_rate >= AlgOption.BuyRate + 10:
             sell()
+        AlgOption.objects.all().delete()
         AlgOption.Status = 0
-
 
     options = {0: buying,
                1: selling}
 
-    options[AlgOption.Status]()
+    print AlgOption.Status
+    cursor = AlgOption.objects.all()[0]
+    options[cursor.Status]()
 
-print "nombre de trade : " + AlgOption.cpt
+print "Fin du trade"
+print "Nombre de trade : " + AlgOption.cpt
