@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 # -------------------------------------------------------------------------------------------------------------------- #
-
 __author__ = 'Xender'
 # -------------------------------------------------------------------------------------------------------------------- #
 
@@ -26,18 +25,17 @@ APIPrivate = api
 rate = APIPublic.GetRate()
 ### ---- Mise en BDD de BtcRate
 BtcValue(rate=rate['last'],
-        high=rate['high'],
-        low=rate['low'],
-        ask=rate['ask'],
-        volume=rate['volume'],
-        date=datetime.now()).save()
+         high=rate['high'],
+         low=rate['low'],
+         ask=rate['ask'],
+         volume=rate['volume'],
+         date=datetime.now()).save()
 
 ### ---- Recuperation des infos necessaire pour Eur/Usd
 EurUsdValue = APIPublic.GetEurUsd()
 ### ---- Mise en BDD de EurUsd
 EurUsd(buy=EurUsdValue['buy'],
        sell=EurUsdValue['sell']).save()
-
 
 ### ---- Debug
 print datetime.now()

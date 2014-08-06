@@ -19,7 +19,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "BitBot.settings")
 from Trade.models import BtcValue
 
 BtcValue.objects.all().delete()
-file = open("test", mode='r')
+file = open("Content of DB", mode='r')
 
 while file.readline():
     current_line = file.readline()
