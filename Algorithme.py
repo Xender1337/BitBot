@@ -59,7 +59,7 @@ while current_date < end_date:
 
     print AlgOption.Status
     cursor = AlgOption.objects.all()[0]
-    options[cursor.Status]()
+    #options[cursor.Status]()
 
 print "Fin du trade"
-print "Nombre de trade : " + AlgOption.cpt
+#print "Nombre de trade : " + AlgOption.cpt
