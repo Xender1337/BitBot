@@ -1,5 +1,5 @@
 from django.contrib import admin
-from Trade.models import BtcValue, EurUsd, BitstampUser, Average
+from Trade.models import BtcValue, EurUsd, BitstampUser, Average, AlgOption
 
 
 class BtcValueAdmin(admin.ModelAdmin):
@@ -20,3 +20,7 @@ admin.site.register(BitstampUser, BitstampUserAdmin)
 class AverageAdmin(admin.ModelAdmin):
     list_display = ('monthAverage', 'dayAverage')
 admin.site.register(Average, AverageAdmin)
+
+class AlgOptionAdmin(admin.ModelAdmin):
+    list_display = ('Status', 'BuyRate', 'cpt')
+admin.site.register(AlgOption, AlgOptionAdmin)
