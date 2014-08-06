@@ -1,12 +1,266 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-    <p>
-        Hello Worlld !!!
-    </p>
-</body>
+    <head lang="fr">
+        <meta charset="UTF-8">
+        <title>Dashboard</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Core CSS - Include with every page -->
+        <link href="{% static "css/bootstrap.min.css" %}"  rel="stylesheet">
+        <link href="{% static "font-awesome/css/font-awesome.css" %}" rel="stylesheet">
+
+        <!-- Page-Level Plugin CSS - Dashboard -->
+        <link href="{% static "css/plugins/morris/morris-0.4.3.min.css" %}" rel="stylesheet">
+        <link href="{% static "css/plugins/timeline/timeline.css" %}" rel="stylesheet">
+        <link href="{% static "select2/select2.css" %}" rel="stylesheet"/>
+
+
+        <!-- SB Admin CSS - Include with every page -->
+        <link href="{% static "css/sb-admin.css" %}" rel="stylesheet">
+    </head>
+
+    <body>
+        !-- Navigation -->
+        <div id="wrapper">
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+                <!-- Barre de navigation haute -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index">BitBot</a>
+                    <span class="pull-right text-muted small"><em>Copyright &copy; Jérome Lorrain &amp; Micka&euml;l BESSON</em></span>
+                </div>
+
+                <ul class="nav navbar-top-links navbar-right">
+                <!-- /.dropdown -->
+                {{ notifications.count }} Notifications
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-alerts">{% for a_notification in notifications %}
+                        <li>
+                            <a href="{{ a_notification.view }}">
+                                <div>
+                                    <i class="fa {{ a_notification.type }} fa-fw"></i> {{ a_notification.label }}
+                                    <span class="pull-right text-muted small">{{ a_notification.date|date:"D H:i" }}</span>
+                                </div>
+                            </a>
+                        </li>
+                    <li class="divider"></li>{% endfor %}
+                    </ul>
+                    <!-- /.dropdown-alerts -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> Login</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+
+                <!-- Barre de navigation gauche -->
+                <div class="navbar-default navbar-static-side" role="navigation">
+                    <div class="sidebar-collapse">
+                        <ul class="nav" id="side-menu">
+                            <li>
+                                <a href="dashboard"><i class="fa fa-home fa-fw"></i> Dashboard</a>
+                            </li>
+                            <li>
+                            <a href="#"><i class="fa fa-wrench fa-fw"></i> Account Settings<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="rig/0"><i class="fa fa-wrench fa-fw"></i> </a>
+                                    </li>
+                                    <li>
+                                        <a href="pool"><i class="fa fa-wrench fa-fw"></i> Pool &amp Coin Managment</a>
+                                    </li>
+                                </ul>
+                            {% for a_rig in rigs %}{% if a_rig.enabled %}
+                            <li>
+                                <span class="pull-right text-muted small"><em>{{ a_rig.current_pool.coin }}</em></span>
+                                <a href="rig/{{ a_rig.id }}"><i class="fa fa-dashboard fa-fw"></i> {{ a_rig.label }}</a>
+                            </li>{% endif %}{% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+
+        <!-- Contenu de la page-->
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Dashboard</h1>
+                </div>
+
+
+                <div class="col-lg-7">
+                    <!-- Graphique du hashrate -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Global Hashrate (current : {{ global_hashrate }} Kh/s)
+                        </div>
+
+                        <div class="panel-body">
+                            <div id="morris-line-chart"></div>
+                        </div>
+                    </div>
+
+                    <!-- Rig Monitoring -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-tachometer fa-fw"></i> Rig Monitoring
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Rig</th>
+                                            <th>Hashrate</th>
+                                            <th>Gpu</th>
+                                        </tr>
+                                    </thead>{% for rig in rigs %}{% if rig.enabled %}
+                                    <tbody>
+                                        <td>{{ rig.label }}</td>
+                                        <td>{{ rig.hashrate }}</td>
+                                        <td>
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-hover table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Hashrate</th>
+                                                            <th>RPM</th>
+                                                            <th>Temperature</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>{% for gpucard in rig.gpucard_set.all %}
+                                                        <tr>
+                                                            <td>{{ gpucard.hashrate }} kh/s</td>
+                                                            <td>{{ gpucard.rpm }} RPM</td>
+                                                            <td>{{ gpucard.temperature }}°c</td>
+                                                        </tr>{% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tbody>{% endif %}{% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-5">
+
+                    <!-- Panneau de notification -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bell fa-fw"></i> Notifications
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" id='notification_button'>Delete Notifications
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right" role="menu">
+                                        <li><a href="notification/delete/0">All</a>
+                                        <li class="divider"></li>
+                                        </li>
+                                        <li><a href="notification/delete/1">Info</a>
+                                        </li>
+                                        <li><a href="notification/delete/2">Alert</a>
+                                        </li>
+                                        <li><a href="notification/delete/3">Success</a>
+                                        </li>
+                                        <li><a href="notification/delete/4">Start/Stop</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="list-group">{% for a_notification in notifications %}
+                                <a href="{{ a_notification.view }}" class="list-group-item">
+                                    <i class="fa {{ a_notification.type }} fa-fw"></i> {{ a_notification.label }}
+                                    <span class="pull-right text-muted small"><em>{{ a_notification.date|date:"D H:i" }}</em>
+                                    </span>
+                                </a>{% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panneau d'affichage -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Current pool per rig
+                        </div>
+                        <div class="panel-body">
+                            <div class="list-group">{% for a_rig in rigs %}{% if a_rig.enabled %}
+                                <a href="rig/{{ a_rig.id }}" class="list-group-item">
+                                    <i class="fa {{ a_notification.type }} fa-fw"></i>{{ a_rig.label }} : {{ a_rig.current_pool.fqdn }}
+                                    <span class="pull-right text-muted small"><em>{{ a_rig.current_pool.coin }}</em>
+                                    </span>
+                                </a>{% endif %}{% endfor %}
+                            </div>
+                            <div>
+                                <select id="select2_pools_all" style="width:300px" >
+                                    <option></option>
+                                    {% for pool in pools %}
+                                    <option value="{{ pool.id }}" >{{ pool.coin }} {{ " : " }} {{ pool.fqdn }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panneau d'affichage -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Hashrate per miner (kh/s)
+                        </div>
+                        <div class="panel-body">
+                            <div id="morris-donut-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Core Scripts - Include with every page -->
+        <script src="{% static "js/jquery-1.10.2.js" %}"></script>
+        <script src="{% static "js/bootstrap.min.js" %}"></script>
+        <script src="{% static "js/plugins/metisMenu/jquery.metisMenu.js" %}"></script>
+
+        <!-- Page-Level Plugin Scripts - Dashboard -->
+        <script src="{% static "js/plugins/morris/raphael-2.1.0.min.js" %}"></script>
+        <script src="{% static "js/plugins/morris/morris.js" %}"></script>
+
+        <!-- SB Admin Scripts - Include with every page -->
+        <script src="{% static "js/sb-admin.js" %}"></script>
+
+        <!-- Select -->
+        <script src="{% static "select2/select2.min.js" %}"></script>
+    </body>
 </html>
