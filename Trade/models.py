@@ -28,8 +28,11 @@ class EurUsd(models.Model):
 
 
 class BitstampUser(models.Model):
-    UserAccount = models.CharField(unique=True, blank=False, max_length=100)
-    ApiKey = models.CharField(unique=True, blank=False, max_length=255)
+    AccountName = models.CharField(unique=True, blank=False, max_length=100)
+    UserID = models.IntegerField(unique=True, blank=False, max_length=10)
+    PublicKey = models.CharField(unique=True, blank=False, max_length=255)
+    SecretKey = models.CharField(unique=True, blank=False, max_length=255)
+
 
 class AlgOption(models.Model):
     Status = models.IntegerField(unique=True, blank=False, max_length=2)

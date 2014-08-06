@@ -13,7 +13,7 @@ admin.site.register(EurUsd, EurUsdAdmin)
 
 
 class BitstampUserAdmin(admin.ModelAdmin):
-    list_display = ('UserAccount', 'ApiKey')
+    list_display = ('AccountName', 'UserID', 'PublicKey', 'SecretKey')
 admin.site.register(BitstampUser, BitstampUserAdmin)
 
 
