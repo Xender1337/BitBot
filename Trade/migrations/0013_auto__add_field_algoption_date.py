@@ -10,7 +10,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         # Adding field 'AlgOption.date'
         db.add_column(u'Trade_algoption', 'date',
-                      self.gf('django.db.models.fields.DateTimeField')(default=0),
+                      self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 8, 6, 0, 0)),
                       keep_default=False)
 
 
@@ -35,9 +35,11 @@ class Migration(SchemaMigration):
             'monthAverage': ('django.db.models.fields.DecimalField', [], {'max_digits': '16', 'decimal_places': '8'})
         },
         u'Trade.bitstampuser': {
-            'ApiKey': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'}),
+            'AccountName': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100'}),
             'Meta': {'object_name': 'BitstampUser'},
-            'UserAccount': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100'}),
+            'PublicKey': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'}),
+            'SecretKey': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'}),
+            'UserID': ('django.db.models.fields.IntegerField', [], {'unique': 'True', 'max_length': '10'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
         },
         u'Trade.btcvalue': {

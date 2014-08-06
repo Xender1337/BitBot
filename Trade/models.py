@@ -6,6 +6,7 @@ from decimal import Decimal
 # python manage.py migrate Trade
 # -------------------------------------------------------------------------------------------------------------------- #
 
+from datetime import datetime
 
 class BtcValue(models.Model):
     rate = models.DecimalField(unique=False, blank=False, max_digits=8, decimal_places=2)
@@ -38,4 +39,4 @@ class AlgOption(models.Model):
     Status = models.IntegerField(unique=True, blank=False, max_length=2)
     BuyRate = models.DecimalField(unique=False, blank=False, max_digits=16, decimal_places=8)
     cpt = models.IntegerField(unique=True, blank=False, max_length=2)
-    date = models.DateTimeField(unique=False, blank=False, auto_now_add=False)
+    date = models.DateTimeField(unique=False, blank=False)
