@@ -33,6 +33,25 @@ class BitstampUser(models.Model):
     UserID = models.IntegerField(unique=True, blank=False, max_length=10)
     PublicKey = models.CharField(unique=True, blank=False, max_length=255)
     SecretKey = models.CharField(unique=True, blank=False, max_length=255)
+    BtcBalance = models.DecimalField(unique=False, max_digits=10, decimal_places=8, default=0)
+    UsdBalance = models.DecimalField(unique=False, max_digits=16, decimal_places=4, default=0)
+    BtcAvailable = models.DecimalField(unique=False, max_digits=10, decimal_places=8, default=0)
+    UsdAvailable = models.DecimalField(unique=False, max_digits=16, decimal_places=4, default=0)
+    BtcReserved = models.DecimalField(unique=False, max_digits=10, decimal_places=8, default=0)
+    UsdReserved = models.DecimalField(unique=False, max_digits=16, decimal_places=4, default=0)
+    BtcTotal = models.DecimalField(unique=False, max_digits=10, decimal_places=8, default=0)
+    UsdTotal = models.DecimalField(unique=False, max_digits=16, decimal_places=4, default=0)
+    Fee = models.DecimalField(unique=False, max_digits=3, decimal_places=2, default=0.05)
+
+    @property
+    def account_value_btc(self):
+        total = self.BtcBalance + self.BtcAvailable + self.BtcReserved
+        return total
+
+    @property
+    def account_value_usd(self):
+        total = self.UsdAvailable + self.UsdBalance + self.UsdReserved
+        return total
 
 
 class AlgOption(models.Model):

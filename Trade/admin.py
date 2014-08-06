@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.forms import ModelForm, PasswordInput
 from Trade.models import BtcValue, EurUsd, BitstampUser, Average, AlgOption
 
 
@@ -13,7 +14,15 @@ admin.site.register(EurUsd, EurUsdAdmin)
 
 
 class BitstampUserAdmin(admin.ModelAdmin):
-    list_display = ('AccountName', 'UserID', 'PublicKey', 'SecretKey')
+    class Meta:
+        model = BitstampUser
+        widget = {
+            'SecretKey': PasswordInput(),
+        }
+    list_display = ('AccountName', 'UserID',
+                    'PublicKey', 'BtcBalance',
+                    'UsdBalance', 'Fee',
+                    'account_value_btc', 'account_value_usd')
 admin.site.register(BitstampUser, BitstampUserAdmin)
 
 
