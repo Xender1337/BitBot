@@ -18,11 +18,10 @@ current_date = end_date - td
 #AlgOption(Status=0, BuyRate=0, cpt=0, date=current_date).save()
 cursor = 0
 
-
 def MonthAverage(date):
     cpt = 0
     add = 0
-    for value in BtcValue.objects.filter(date__gte=date-timedelta(days=30)):
+    for value in BtcValue.objects.filter(date__gt=date-timedelta(days=30)):
         cpt += 1
         add += value.rate
     monthAverage = add/cpt
@@ -32,7 +31,7 @@ def MonthAverage(date):
 def DayAverage(date):
     add = 0
     cpt = 0
-    for value in BtcValue.objects.filter(date__gte=date-timedelta(days=1)):
+    for value in BtcValue.objects.filter(date__gt=date-timedelta(days=1)):
         cpt += 1
         add += value.rate
     dayAverage = add/cpt
