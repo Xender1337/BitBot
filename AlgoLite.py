@@ -12,8 +12,8 @@ from Trade.models import BtcValue, Average, AlgOption
 # -------------------------------------------------------------------------------------------------------------------- #
 
 end_date = datetime.now()
-cnt = 720
-td = timedelta(hours=cnt)
+cnt = 30
+td = timedelta(days=cnt)
 current_date = end_date - td
 #AlgOption(Status=0, BuyRate=0, cpt=0, date=current_date).save()
 cursor = 0
@@ -38,10 +38,10 @@ def DayAverage(date):
     dayAverage = add/cpt
     return dayAverage
 
-
 for value in BtcValue.objects.all().filter(date__gt=current_date):
 
     current_date = value.date
+    print current_date
 
     #lastAverage = Average.objects.all()[0]
     #monthAverage = lastAverage.monthAverage
@@ -58,7 +58,7 @@ for value in BtcValue.objects.all().filter(date__gt=current_date):
 
             if current_rate < monthAverage and current_rate < dayAverage:
                 #buy()
-                print "J'ai achete"
+                print "\n########################\n####     Achete     ####\n########################\n"
                 algoption = AlgOption.objects.order_by('-date').all()[0]
                 AlgOption(Status=1, BuyRate=current_rate, cpt=algoption.cpt, date=current_date).save()
                 cursor = 1
@@ -67,10 +67,13 @@ for value in BtcValue.objects.all().filter(date__gt=current_date):
         #def selling():
             algoption = AlgOption.objects.order_by('-date').all()[0]
             if current_rate >= algoption.BuyRate + 10:
+                print "\n########################\n####     Vendu     ####\n########################\n"
                 a = algoption.cpt + 1
                 #sell()
-                AlgOption(Status=0, cpt=a, date=current_date).save()
+                AlgOption(Status=0, BuyRate=current_rate, cpt=a, date=current_date).save()
                 cursor = 0
 
 print "Fin du trade"
-print "Nombre de trade : " + AlgOption.cpt
+
+compteur = AlgOption.objects.order_by('-date').all()[0]
+print "Nombre de trade : " + compteur.cpt

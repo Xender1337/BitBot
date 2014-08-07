@@ -37,6 +37,7 @@ def DayAverage(date):
     dayAverage = add/cpt
     return dayAverage
 
+
 print "\n################################\n####     Debut Du Trade     ####\n################################\n"
 for value in BtcValue.objects.all().filter(date__gt=current_date):
 
@@ -84,4 +85,4 @@ for value in BtcValue.objects.all().filter(date__gt=current_date):
                 cursor = 0
 
 print "Fin du trade"
-print "Nombre de trade : " + AlgOption.cpt
+print "Nombre de trade : " + str(AlgOption.cpt)
