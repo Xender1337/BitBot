@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.forms import ModelForm, PasswordInput
-from Trade.models import BtcValue, EurUsd, BitstampUser, Average, AlgOption
+from Trade.models import BtcValue, EurUsd, BitstampUser, Average, AlgOption, Order
 
 
 class BtcValueAdmin(admin.ModelAdmin):
@@ -14,11 +14,6 @@ admin.site.register(EurUsd, EurUsdAdmin)
 
 
 class BitstampUserAdmin(admin.ModelAdmin):
-    class Meta:
-        model = BitstampUser
-        widget = {
-            'SecretKey': PasswordInput(),
-        }
     list_display = ('AccountName', 'UserID',
                     'PublicKey', 'BtcBalance',
                     'UsdBalance', 'Fee',
@@ -34,3 +29,8 @@ admin.site.register(Average, AverageAdmin)
 class AlgOptionAdmin(admin.ModelAdmin):
     list_display = ('Status', 'BuyRate', 'cpt', 'date')
 admin.site.register(AlgOption, AlgOptionAdmin)
+
+
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('BitstampUser', 'OrderId', 'Price', 'Amount', 'RequestType', 'OrderType', 'Status')
+admin.site.register(Order, OrderAdmin)
