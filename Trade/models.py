@@ -1,12 +1,10 @@
 from django.db import models
-from decimal import Decimal
 
 # -------------------------------------------------------------------------------------------------------------------- #
 # python manage.py schemamigration Trade --auto
 # python manage.py migrate Trade
 # -------------------------------------------------------------------------------------------------------------------- #
 
-from datetime import datetime
 
 class BtcValue(models.Model):
     rate = models.DecimalField(unique=False, blank=False, max_digits=8, decimal_places=2)
@@ -68,13 +66,17 @@ class Order(models.Model):
         (0, 'Buy'),
         (1, 'Sell')
     )
+    TYPE_STATUS = (
+        (0, 'Actually'),
+        (1, 'Done')
+    )
     BitstampUser = models.ForeignKey(BitstampUser)
     OrderId = models.IntegerField(blank=False, unique=True, max_length=20,)
     Price = models.DecimalField(unique=False, blank=False, max_digits=16, decimal_places=8, default=0)
     Amount = models.DecimalField(unique=False, blank=False, max_digits=16, decimal_places=8, default=0)
     RequestType = models.IntegerField(unique=False, blank=False, choices=TYPE_REQUEST)
     OrderType = models.IntegerField(unique=False, blank=False, choices=TYPE_ORDER)
-
+    Status = models.IntegerField(unique=False, blank=False, choices=TYPE_STATUS)
 
 
 class AlgOption(models.Model):
